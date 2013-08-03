@@ -10,6 +10,11 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me,
                   :provider, :uid, :name
 
+  has_many :user_uploadeds
+  has_many :uploaded_songs, through: :user_uploadeds, source: :song
+  has_many :user_histories
+  has_many :history_songs, through: :user_histories, source: :song
+
   def self.find_for_facebook_oauth(auth, signed_in_resource = nil)
     user = User.where(provider: auth.provider, uid: auth.uid).first
     unless user
