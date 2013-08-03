@@ -1,0 +1,7 @@
+<h1>Users#show</h1>
+<p>Find me in app/views/users/show.html.erb</p>
+
+<% if @user %>
+<a href="<%= destroy_user_session_url %>" data-method="delete" rel="nofollow"><li>Sign Out</li></a>
+<%= @user.email %>
+<% end %>
