@@ -1,3 +1,7 @@
+<script type="application/json" id="random-song">
+  <%= @song.to_json.html_safe %>
+</script>
+
 <h1>Users#show</h1>
 <p>Find me in app/views/users/show.html.erb</p>
 
@@ -5,3 +9,42 @@
 <a href="<%= destroy_user_session_url %>" data-method="delete" rel="nofollow"><li>Sign Out</li></a>
 <%= @user.email %>
 <% end %>
+
+<script src="http://toma.hk/api.js?v=1"></script>
+<script type="application/javascript">
+
+var random_song = JSON.parse($('#random-song').html())
+
+var track;
+track = window.tomahkAPI.Track(random_song.artist + " - " random_song.title,
+    random_song.album, 
+    {
+    width: 300,
+    height: 300,
+    disabledResolvers: ["SpotifyMetadata"
+        // options: "SoundCloud", "Officialfm", "Lastfm", "Jamendo", "Youtube", "Rdio", "SpotifyMetadata", "Deezer", "Exfm"
+    ],
+    handlers: {
+        onloaded: function() {
+            log(track.connection+":\n  api loaded");
+        },
+        onended: function() {
+            log(track.connection+":\n  Song ended: "+track.artist+" - "+track.title);
+        },
+        onplayable: function() {
+            log(track.connection+":\n  playable");
+        },
+        onresolved: function(resolver, result) {
+            log(track.connection+":\n  Track found: "+resolver+" - "+ result.track + " by "+result.artist);
+        },
+        ontimeupdate: function(timeupdate) {
+            var currentTime = timeupdate.currentTime;
+            var duration = timeupdate.duration;
+            currentTime = parseInt(currentTime);
+            duration = parseInt(duration);
+
+            log(track.connection+":\n  Time update: "+currentTime + " "+duration);
+        }
+    }
+});
+</script>
