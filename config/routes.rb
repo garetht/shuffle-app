@@ -8,7 +8,7 @@ ShuffleApp::Application.routes.draw do
     get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
   end
 
-  root :to => "home#index"
+  root :to => "users#show"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
