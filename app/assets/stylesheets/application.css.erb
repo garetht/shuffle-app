@@ -99,8 +99,8 @@ label > h5 {
 .cont {
   display: block;
   position: relative;
+  left: 70%;
   margin: 0 auto;
-
   width: auto;
 }
 
@@ -133,7 +133,7 @@ label > h5 {
   color:white;
 }
 
-.natalie, .gadget
+.natalie, .gadget, .votes
 {
   
   /*Transition*/
@@ -142,10 +142,38 @@ label > h5 {
   -o-transition: all 0.5s ease;
 }
 
-.natalie:hover, .gadget:hover
+#upvote:active
+{
+  background:#419130;
+}
+
+#downvote:active
+{
+  background:#953232;
+}
+
+#user-info
+{
+  max-width:40%;
+  opacity:0.9;
+  position:absolute;
+  clear:both;
+}
+
+ul
+{
+  list-style:none;
+}
+
+.natalie:hover, .gadget:hover, .votes:hover
 {
   /*Glow*/
   -webkit-box-shadow: 0px 0px 10px rgba(255,255,255,0.8);
   -moz-box-shadow: 0px 0px 10px rgba(255,255,255,0.8);
   box-shadow: 0px 0px 10px rgba(255,255,255,0.8);
+}
+
+#user-info
+{
+  margin-left:-330px;
 }

@@ -19,6 +19,63 @@ Hi, <%= @user.name %>
 </label>
 </section>
 
+<div id="user-info" class="section-container auto" data-section>
+  <section>
+    <p class="title" data-section-title><a href="#panel1">History</a></p>
+    <div class="content" data-section-content>
+      <ul class="song-list" id="history-list">
+
+      </ul>
+    </div>
+  </section>
+  <section>
+    <p class="title" data-section-title><a href="#panel2">Likes</a></p>
+    <div class="content" data-section-content>
+      <ul class="song-list" id="like-list">
+
+      </ul>
+    </div>
+  </section>
+  <section>
+    <p class="title" data-section-title><a href="#panel3">Uploads</a></p>
+    <div class="content" data-section-content>
+      <ul class="song-list" id="my-list">
+
+      </ul>
+    </div>
+  </section>
+</div>
+
+<script type="application/javascript">
+<% listens = @user.history_songs %>
+<% listens.each_with_index do |song, index| %>
+<% next if (index <= (listens.length - 6)) %>
+$("#history-list").append("<%= song.title %>");
+$("#history-list").append("<hr>");
+<% end %>
+</script>
+
+<script type="application/javascript">
+<% likes = Polarity.where({:user_id => @current_user.id}) %>
+<% liked_ids = [] %>
+<% likes.each do |song| %>
+<% liked_ids.push(song.id) %>
+<% end %>
+<% liked_songs = Song.find_all_by_id(liked_ids) %>
+<% liked_songs.each do |song| %>
+$("#like-list").append("<%= song.title %>");
+$("#like-list").append("<hr>");
+<% end %>
+</script>
+
+<script type="application/javascript">
+<% @user.uploaded_songs.each do |song| %>
+$("#my-list").append("<%= song.title %>");
+$("#my-list").append("<hr>");
+<% end %>
+</script>
+
+
 <form method="post">
   <table id="new-song">
   <tr><td>
@@ -40,15 +97,15 @@ Hi, <%= @user.name %>
 
 <div class="row" id="app-buttons">
   <ul class="button-group round even-3">
-    <li><a class="button" id="slidemarginleft">Shuffles</a></li>
+    <li><a class="button" id="shuffles">Shuffles</a></li>
     <li><a class="button" id="play">Play</a></li>
     <li><a class="button" id="next">Next</a></li>
   </ul>
 </div>
 
 <div class="row" id="updown">
-  <img class="votes" src="<%= asset_path('upvote.png')%>">
-  <img class="votes" src="<%= asset_path('downvote.png')%>">
+  <img id="upvote" class="votes" src="<%= asset_path('upvote.png')%>">
+  <img id="downvote" class="votes" src="<%= asset_path('downvote.png')%>">
 </div>
 
 <div class="panel callout" id="current">
@@ -59,6 +116,20 @@ Hi, <%= @user.name %>
   
 </div>
 
+<script type="text/javascript">
+$(document).ready(function () {
+  $('#shuffles').click(function() {
+      var $marginLefty = $('#user-info');
+      $marginLefty.animate({
+        marginLeft: parseInt($marginLefty.css('marginLeft'), 10) == 0 ?
+          -$marginLefty.outerWidth() - 10 :
+          0
+      });
+    });
+    
+});
+
+</script>
 
 <script src="http://toma.hk/api.js?v=1"></script>
 
@@ -83,7 +154,7 @@ $('.gadget').on("click", function(event){
     data: $(this.form).serialize(),
       
   }).done(function(song){
-    alert("donedonedone");
+    alert("Added Your Song!");
     
     $('input[name=song\\[title\\]]').val("");
     $('input[name=song\\[artist\\]]').val("");
@@ -198,6 +269,41 @@ $('#next').click(function() {
   return false;
   
 });
+
+
+$('#downvote').click(function(){
+  
+  
+  $.ajax({
+    url: "/polarities",
+    type: "POST",
+    data: {"polarity": {"song_id": song_id, "is_good": "false", "user_id": "<%= @user.id %>"}},
+    success: function(response) {
+    },
+    error: function(response, arg, error) {
+    }
+  });
+  
+  
+  return false;
+})
+
+$('#upvote').click(function() { /* up */
+  
+  $.ajax({
+    url: "/polarities",
+    type: "POST",
+    data: {"polarity": {"song_id": song_id, "is_good": "true", "user_id": "<%= @user.id %>"}},
+    success: function(response) {
+      //make the thing glowwwww
+    },
+    error: function(response, arg, error) {
+    }
+  });
+
+  return false;
+})
+
 
 
 $(document).keydown(function(e){

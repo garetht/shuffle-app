@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
   def get_score
     myarray = Polarity.where('song_id IN (?)', self.uploaded_songs.pluck(:id))
     myarray.reduce(0) do |memo, sum|
-      sum ? (memo += 1) : (memo -= 1)
+      sum.is_good ? (memo += 1) : (memo -= 1)
     end
     
   end

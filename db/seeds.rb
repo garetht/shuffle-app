@@ -12,11 +12,10 @@ Song.create(title:"Seattle Yodel", artist:"Gorillaz")
 Song.create(title:"No Leaves, No Shade", artist:"Friendly Savages")
 Song.create(title:"Au Revoir", artist:"Flight Of The Conchords")
 Song.create(title:"Wow", artist:"Garfunkel and Oates")
-
-Song.create(title:"velocity girl", artist:"primal scream")
-Song.create(artist:"jonathan richman", title:"let her go into the darkness")
-Song.create(title:"silent night", artist:"sufjan stevens")
-Song.create(title:"belly button", artist:"sufjan stevens")
+Song.create(title:"Velocity Girl", artist:"Primal Scream")
+Song.create(artist:"Jonathan Richman", title:"Let Her Go Into The Darkness")
+Song.create(title:"Silent Night", artist:"Sufjan Stevens")
+Song.create(title:"Belly Button", artist:"Sufjan Stevens")
 
 
 
