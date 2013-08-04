@@ -2,18 +2,25 @@
   <%= @song.to_json.html_safe %>
 </script>
 
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
 
+<section class="signout">
 <% if @user %>
 <a href="<%= destroy_user_session_url %>" data-method="delete" rel="nofollow"><li>Sign Out</li></a>
 <%= @user.email %>
 <% end %>
+</section>
 
-<input class="auto-cont" type="checkbox">Autocontinue</input>
-
+<section class="scoreboard">
+<h6>YOUR SCORE BRAH!</h6>
+<h6><%= @user.get_score %></h6>
+</section>
+<section class="cont">
+<label>continuous play
+<input class="auto-cont" type="checkbox">
+</label>
+</section>
 <form method="post">
-
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 <label>Autocomplete Box</label>
 <label>artist:
 <input type="text" name="song[artist]" class="auto-box"></input>
