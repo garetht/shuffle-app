@@ -16,53 +16,20 @@
 <script src="http://toma.hk/api.js?v=1"></script>
 <script type="application/javascript">
 
-var queryEchoNest = function(){
-  $.ajax({
-    url: 'http://developer.echonest.com/api/v4/artist/suggest?api_key=FILDTEOIK2HBORODV&name=cala&results=10',
-
-  })
-}
-
-$('.auto-box').autocomplete(function(request, response){
-
-})
-
-var fetchArtists = function(){
+var printer = function(){
 
 }
 
-$('.auto-box').on("keyup", function(){
-  console.log("Hello!");
-})
-
-var random_song = JSON.parse($('#random-song').html());
-console.log(random_song)
-var track;
-var isResolved;
-track = window.tomahkAPI.Track(random_song.title,
-    random_song.artist, 
-    {
-    width: 300,
-    height: 300,
-    disabledResolvers: ["SpotifyMetadata"],
-        // options: "SoundCloud", "Officialfm", "Lastfm", "Jamendo", "Youtube", "Rdio", "SpotifyMetadata", "Deezer", "Exfm"
-    handlers: {
-        onloaded: function() {
-            console.log(track.connection + ":\n  api loaded");
-        },
-        onended: function() {
-            console.log(track.connection + ":\n  Song ended: "+track.artist+" - "+track.title);
-        },
-        onplayable: function() {
-            console.log(track.connection+":\n  playable");
-        },
-        onresolved: function(resolver, result) {
-            console.log(track.connection+":\n  Track found: "+resolver+" - "+ result.track + " by "+ result.artist);
-        },
-        ontimeupdate: function(timeupdate) {
-        }
+$('.auto-box').autocomplete({
+  source: function(request, response){
+    console.log("request term")
+    console.log(request.term)
+    $.ajax({url: "http://developer.echonest.com/api/v4/artist/suggest",
+      data: {"api_key": "FILDTEOIK2HBORODV", "name": request.term, "results": 10},
+      type: "get"}).done(function(data){ 
+        response(data["response"]["artists"].map(function(x){return x.name}));
+      })
     }
 });
-console.log("HERE THIS IS");
-$('body').append(track.render())
+
 </script>
