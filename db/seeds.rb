@@ -6,9 +6,11 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-10.times do |i|
-  Song.create([{title: "song#{i}", artist: "artist#{i}", album: "album#{i}"}])
-end
+Song.create(title:"velocity girl", artist:"primal scream")
+Song.create(artist:"jonathan richman", title:"let her go into the darkness")
+Song.create(title:"silent night", artist:"sufjan stevens")
+Song.create(title:"belly button", artist:"sufjan stevens")
+
 
 10.times do |i|
   User.create([email: "#{i}@abc.com", password: "12345678"])

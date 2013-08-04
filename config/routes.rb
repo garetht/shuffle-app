@@ -10,10 +10,11 @@ ShuffleApp::Application.routes.draw do
     get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
   end
 
+  resource :song, only: [:show, :create]
   resources :polarities, only: [:create]
   
   resources :user_histories, only: [:create]
-  resource :song, only: [:show]
+  resources :user_uploadeds, only: [:create]
   root :to => "users#show"  
 
   # The priority is based upon order of creation:
