@@ -2,42 +2,60 @@
   <%= @song.to_json.html_safe %>
 </script>
 
+<section>
 
-<section class="signout">
 <% if @user %>
-<a href="<%= destroy_user_session_url %>" data-method="delete" rel="nofollow"><li>Sign Out</li></a>
-<%= @user.email %>
+<strong class="hinge_me"><%= @user.email %></strong>
+<span class="righty signout"><a href="<%= destroy_user_session_url %>" data-method="delete" rel="nofollow">sign out</a></span>
 <% end %>
 </section>
 
 <section class="scoreboard">
-<h6>YOUR SCORE BRAH!</h6>
-<h6><%= @user.get_score %></h6>
+<h6>points you've racked up</h6>
+<h4><%= @user.get_score %></h4>
 </section>
+
 <section class="cont">
-<label>continuous play
+<label class="color-change">continuous play
 <input class="auto-cont" type="checkbox">
 </label>
 </section>
+<a href="#" class="qmark color-change">?</a>
+
+<div class="floater">
+  <strong style="font-size: 1.1em;">navigation!</strong><br>
+  right to play next song<br>
+  up to upvote<br>
+  down to downvote<br>
+  left to see history<br>
+  spacebar to play/pause
+</div>
+
+<div class="natalie circle fadeInLeftBig">
+  
+</div>
+
+<section class="enter-stuff">
 <form method="post">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-<label>Autocomplete Box</label>
+<label class="color-change">share a new song</label><br>
 <label>artist:
 <input type="text" name="song[artist]" class="auto-box"></input>
 </label>
+<br>
 <label>song:
 <input type="text" name="song[title]" class="auto-song-box"></input>
-</label>
+</label><br>
 <input type="submit" class="gadget" value="GO GADGET GO!">
 </form>
-
-<div class="natalie">
-  
-</div>
+</section>
 
 <script src="http://toma.hk/api.js?v=1"></script>
 
 <script type="application/javascript">
+$(document).ready($('.qmark').addClass("animated rotateIn"));
+
+$(document).ready($('.circle').addClass('animated fadeInLeftBig'));
 
 $('.auto-box').autocomplete({
   source: function(request, response){
@@ -89,8 +107,8 @@ var processTrack = function (title, artist, id){
   track = window.tomahkAPI.Track(title,
       artist, 
       {
-      width: 300,
-      height: 300,
+      width: 250,
+      height: 250,
       disabledResolvers: ["SpotifyMetadata"],
           // options: "SoundCloud", "Officialfm", "Lastfm", "Jamendo", "Youtube", "Rdio", "SpotifyMetadata", "Deezer", "Exfm"
       handlers: {
@@ -187,13 +205,16 @@ $(document).keydown(function(e){
         type: "POST",
         data: {"user_history": {"song_id": song_id, "user_id": "<%= @user.id %>"}},
         success: function(response) {
-          
+          $(".circle").addClass("animated fadeOutRightBig");
           $.ajax({
             url: "<%= song_url %>.json",
             type: "get"
           }).done(function(data){
             new_track = processTrack(data.title, data.artist, data.id)
+            
             $('.natalie').html(new_track.render())
+            $(".circle").removeClass("animated fadeOutRightBig");
+            $(".circle").addClass("animated fadeInLeftBig");
           })
         },
         error: function(response, arg, error) {

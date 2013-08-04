@@ -10,32 +10,54 @@
  *
  *= require_self
  *= require_tree .
+ *= require animate
  */
 
-html, body, section, h6 {
-  font-family: sans-serif;
+html, body, section, h6, h4, h1, p {
+  font-family: 'Caesar Dressing', sans-serif;
+  font-size: 1em;
   padding: 0;
   margin: 0;
   border: 0;
+  background:lightgray;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+  color: #074F92;
 }
 .main {
   width: 800px;
-  background: pin;
+  background: lightgray;
+  margin: auto;
+  text-align: center;
 }
 .scoreboard {
   display: block;
-  position: fixed;
+  position: relative;
   top:0;
-  right:0;
+  right: 0;
   background:gray;
+  height: auto;
   font-size: 2em;
   text-align: center;
   
 }
+.linky {
+  text-decoration: none;
+}
+.linky:hover {
+  text-decoration: none;
+  color: yellow;
+}
+h1 {
+  font-size: 2em;
+}
 
 .cont {
   display: block;
-  background: blue;
   position: relative;
   margin: 0 auto;
 
@@ -43,8 +65,91 @@ html, body, section, h6 {
 }
 
 .signout {
-  background:purple;
   display: block;
   position: relative;
   width: auto;
+}
+.lefty {
+
+}
+.righty {
+  display: inline-block;
+  float: right;
+}
+.signout a {
+  text-decoration: none;
+}
+
+.signout a:hover {
+  color: yellow;
+}
+
+.enter-stuff {
+}
+
+.gadget {
+  background-color: gray;
+  color: white;
+  border-radius: 20px;
+  border: none;
+  transition: all 1s ease-in-out;
+}
+.gadget:hover {
+  color: yellow;
+  transition: all 1s ease-in-out;
+  
+}
+.color-change {
+  color: black;
+  transition: all 1s ease-in-out;
+}
+.color-change:hover {
+  color: yellow;
+  transition: all 1s ease-in-out;
+}
+
+.natalie {
+  margin: 20px auto;
+  padding-top: 57px;
+}
+
+.circle {
+  height: 370px;
+  width: 370px;
+  border-radius: 370px;
+  background: black;
+  margin-top: -20px;
+}
+
+.floater {
+  padding: 5px;
+  float: left;
+  padding-top: 25px;
+  margin-top: -25px;
+  margin-left: 25px;
+  position: fixed;
+  background: transparent;
+  width: 200px;
+  height: 200px;
+  border-radius: 200px;
+  color: transparent;
+  transition: all 1s ease-in-out;
+}
+
+.qmark {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  margin-left: -440px;
+  font-size: 2em;
+}
+.qmark:hover {
+  color: yellow;  
+  text-decoration: none;
+}
+.qmark:hover + .floater {
+  background: gray;
+  color: black;
+  transition: all 1s ease-in-out;
+  
 }
