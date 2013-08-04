@@ -39,7 +39,6 @@
 
 <script type="application/javascript">
 
-=======
 $('.auto-box').autocomplete({
   source: function(request, response){
     $.ajax({url: "http://developer.echonest.com/api/v4/artist/suggest",
@@ -204,17 +203,10 @@ $(document).keydown(function(e){
       
       return false;
     }
-    
-    
-    
     if (e.keyCode == 37) { /* left */
       //SHOW HISTORY
        return false;
     }
-    
-    
-    
-    
   }
 })
 
