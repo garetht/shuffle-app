@@ -12,7 +12,7 @@ Song.create(title:"Seattle Yodel", artist:"Gorillaz")
 Song.create(title:"No Leaves, No Shade", artist:"Friendly Savages")
 Song.create(title:"Au Revoir", artist:"Flight Of The Conchords")
 Song.create(title:"Wow", artist:"Garfunkel and Oates")
-<<<<<<< HEAD
+
 Song.create(title:"Velocity Girl", artist:"Primal Scream")
 Song.create(artist:"Jonathan Richman", title:"Let Her Go Into The Darkness")
 Song.create(title:"Silent Night", artist:"Sufjan Stevens")
@@ -31,9 +31,3 @@ end
 10.times do |i|
   UserHistory.create(user_id: "#{10 - i}", song_id: "#{i}")
 end
-=======
-Song.create(title:"velocity girl", artist:"primal scream")
-Song.create(artist:"jonathan richman", title:"let her go into the darkness")
-Song.create(title:"silent night", artist:"sufjan stevens")
-Song.create(title:"belly button", artist:"sufjan stevens")
->>>>>>> cf183ded0c0bb34c51edf2b9aed981d71e66fc90
