@@ -1,0 +1,151 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ *= require foundation
+ */
+
+html, body, section, h6 {
+  font-family: sans-serif;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+#updown
+{
+  margin-left: 75%;
+}
+
+.votes {
+  margin: 10px;
+  float:left;
+  width:32px;
+  height:auto;
+  background: #579EC7;
+  border: 2px solid white;
+}
+
+
+.main {
+  width: 800px;
+  background-image:url("<%= asset_path('Earphones.jpg') %>");
+}
+
+label > h5 {
+  color:white;
+  display:inline;
+}
+
+#title {
+  color:white;
+}
+
+#logo
+{
+  height:64px;
+  width:auto;
+  float:left;
+}
+
+#primary-container
+{
+  margin-left: 70%;
+}
+
+#auto-box, #auto-song-box
+{
+  width:100%;
+}
+
+#new-song
+{
+  margin-left:60%;
+  background:transparent;
+  border:none;
+}
+
+.gadget{
+  margin-left:70%;
+  color:white;
+  font-size:20px;
+  border:none;
+  background: #579EC7;
+}
+
+.scoreboard {
+  display: block;
+  position: fixed;
+  top:0;
+  right:0;
+  background:slategray;
+  font-size: 2em;
+  text-align: center;
+  border: 2px solid white;
+}
+
+.scoreboard > h6 {
+  color:white;
+}
+
+.cont {
+  display: block;
+  position: relative;
+  margin: 0 auto;
+
+  width: auto;
+}
+
+#app-buttons
+{
+  margin-left:30%;
+}
+
+.signout {
+  color:white;
+  background:slategrey;
+  display: block;
+  position: fixed;
+  float:left;
+  width: auto;
+  top:0;
+  list-style:none;
+  border:2px solid white;
+}
+
+.natalie{
+  height:0px;
+  opacity:0;
+  margin-left: 60%;
+}
+
+#current
+{
+  margin-left:65%;
+  color:white;
+}
+
+.natalie, .gadget
+{
+  
+  /*Transition*/
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+}
+
+.natalie:hover, .gadget:hover
+{
+  /*Glow*/
+  -webkit-box-shadow: 0px 0px 10px rgba(255,255,255,0.8);
+  -moz-box-shadow: 0px 0px 10px rgba(255,255,255,0.8);
+  box-shadow: 0px 0px 10px rgba(255,255,255,0.8);
+}

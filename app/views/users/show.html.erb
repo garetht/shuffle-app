@@ -5,41 +5,66 @@
 
 <section class="signout">
 <% if @user %>
+Hi, <%= @user.name %>
 <a href="<%= destroy_user_session_url %>" data-method="delete" rel="nofollow"><li>Sign Out</li></a>
-<%= @user.email %>
 <% end %>
 </section>
 
 <section class="scoreboard">
-<h6>YOUR SCORE BRAH!</h6>
-<h6><%= @user.get_score %></h6>
+<h6>Score: <%= @user.get_score %></h6>
 </section>
 <section class="cont">
-<label>continuous play
+<label><h5>Continuous Play</h5>
 <input class="auto-cont" type="checkbox">
 </label>
 </section>
+
 <form method="post">
+  <table id="new-song">
+  <tr><td>
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-<label>Autocomplete Box</label>
-<label>artist:
-<input type="text" name="song[artist]" class="auto-box"></input>
-</label>
-<label>song:
-<input type="text" name="song[title]" class="auto-song-box"></input>
-</label>
-<input type="submit" class="gadget" value="GO GADGET GO!">
+<label><span class="label">Artist:</span>
+<input type="text" name="song[artist]" id="auto-box" placeholder="Enter Artist Name..."></input>
+</label></td>
+<td>
+<label><span class="label">Song:</span>
+<input type="text" name="song[title]" id="auto-song-box" placeholder="Enter Song Name..."></input>
+</label></td>
+</tr>
+</table>
+
+<input type="submit" class="gadget" value="Create Song!"></input>
+
 </form>
+
+
+<div class="row" id="app-buttons">
+  <ul class="button-group round even-3">
+    <li><a class="button" id="slidemarginleft">Shuffles</a></li>
+    <li><a class="button" id="play">Play</a></li>
+    <li><a class="button" id="next">Next</a></li>
+  </ul>
+</div>
+
+<div class="row" id="updown">
+  <img class="votes" src="<%= asset_path('upvote.png')%>">
+  <img class="votes" src="<%= asset_path('downvote.png')%>">
+</div>
+
+<div class="panel callout" id="current">
+  
+</div>
 
 <div class="natalie">
   
 </div>
 
+
 <script src="http://toma.hk/api.js?v=1"></script>
 
 <script type="application/javascript">
 
-$('.auto-box').autocomplete({
+$('#auto-box').autocomplete({
   source: function(request, response){
     $.ajax({url: "http://developer.echonest.com/api/v4/artist/suggest",
       data: {"api_key": "FILDTEOIK2HBORODV", "name": request.term, "results": 10},
@@ -67,7 +92,7 @@ $('.gadget').on("click", function(event){
       url: "<%= user_uploadeds_url %>",
       type: "POST",
       data: {"user_uploaded": {"user_id": "<%= @user.id %>", "song_id": song.id}}
-    }).done($('body').append("successfully added song!!!"));
+    }).done($('body').append("Successfully added song!"));
     
     
   });
@@ -111,6 +136,8 @@ var processTrack = function (title, artist, id){
                   }).done(function(data){
                     new_track = processTrack(data.title, data.artist, data.id)
                     $('.natalie').html(new_track.render())
+                    $('#current').html("Title: " + data.title);
+                    $('#current').append("<br>Artist: " + data.artist);
                   })
                 },
                 error: function(response, arg, error) {
@@ -131,12 +158,50 @@ var processTrack = function (title, artist, id){
   return track;
 }
 
-var new_track = processTrack(random_song.title, random_song.artist, random_song.id)
+var gtitle = random_song.title;
+var gartist = random_song.artist
+var gid = random_song.id
 
-$('.natalie').append(new_track.render())
+var new_track = processTrack(gtitle, gartist, gid);
+
+$('.natalie').append(new_track.render());
+$('#current').append("Title: " + gtitle);
+$('#current').append("<br>Artist: " + gartist);
+
+$('#play').click(function() {
+  new_track.play();
+  return false;
+});
+
+$('#next').click(function() {
+  $.ajax({
+    url: "/user_histories",
+    type: "POST",
+    data: {"user_history": {"song_id": song_id, "user_id": "<%= @user.id %>"}},
+    success: function(response) {
+      
+      $.ajax({
+        url: "<%= song_url %>.json",
+        type: "get"
+      }).done(function(data){
+        new_track = processTrack(data.title, data.artist, data.id)
+        $('.natalie').html(new_track.render());
+        $('#current').html("Title: " + data.title);
+        $('#current').append("<br>Artist: " + data.artist);
+      })
+    },
+    error: function(response, arg, error) {
+      
+    }
+  });
+  
+  return false;
+  
+});
+
 
 $(document).keydown(function(e){
-  if ($('.auto-box').is(":focus")) {
+  if ($('#auto-box').is(":focus") || $('#auto-song-box').is(":focus")) {
     
   } else {
     if (e.keyCode == 32) { /* space */
@@ -193,7 +258,9 @@ $(document).keydown(function(e){
             type: "get"
           }).done(function(data){
             new_track = processTrack(data.title, data.artist, data.id)
-            $('.natalie').html(new_track.render())
+            $('.natalie').html(new_track.render()); 
+            $('#current').html("Title: " + data.title);
+            $('#current').append("<br>Artist: " + data.artist);
           })
         },
         error: function(response, arg, error) {

@@ -5,9 +5,14 @@
   <title>ShuffleApp</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "vendor/custom.modernizr" %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="main">
+
+  <div id="primary-container">
+  <img id="logo" src="<%= asset_path('Shuffle-Icon.png') %>"><h1 id="title">Shuffle</h1>
+ </div>
 
 <% if notice %>
 <%= notice %>
