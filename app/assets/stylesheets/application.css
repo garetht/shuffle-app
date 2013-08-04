@@ -11,3 +11,40 @@
  *= require_self
  *= require_tree .
  */
+
+html, body, section, h6 {
+  font-family: sans-serif;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+.main {
+  width: 800px;
+  background: pin;
+}
+.scoreboard {
+  display: block;
+  position: fixed;
+  top:0;
+  right:0;
+  background:gray;
+  font-size: 2em;
+  text-align: center;
+  
+}
+
+.cont {
+  display: block;
+  background: blue;
+  position: relative;
+  margin: 0 auto;
+
+  width: auto;
+}
+
+.signout {
+  background:purple;
+  display: block;
+  position: relative;
+  width: auto;
+}

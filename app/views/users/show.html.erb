@@ -2,28 +2,46 @@
   <%= @song.to_json.html_safe %>
 </script>
 
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
 
+<section class="signout">
 <% if @user %>
 <a href="<%= destroy_user_session_url %>" data-method="delete" rel="nofollow"><li>Sign Out</li></a>
 <%= @user.email %>
 <% end %>
+</section>
 
+<section class="scoreboard">
+<h6>YOUR SCORE BRAH!</h6>
+<h6><%= @user.get_score %></h6>
+</section>
+<section class="cont">
+<label>continuous play
+<input class="auto-cont" type="checkbox">
+</label>
+</section>
+<form method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
 <label>Autocomplete Box</label>
-<input type="text" class="auto-box"></input>
+<label>artist:
+<input type="text" name="song[artist]" class="auto-box"></input>
+</label>
+<label>song:
+<input type="text" name="song[title]" class="auto-song-box"></input>
+</label>
+<input type="submit" class="gadget" value="GO GADGET GO!">
+</form>
+
+<div class="natalie">
+  
+</div>
 
 <script src="http://toma.hk/api.js?v=1"></script>
+
 <script type="application/javascript">
 
-var printer = function(){
-
-}
-
+=======
 $('.auto-box').autocomplete({
   source: function(request, response){
-    console.log("request term")
-    console.log(request.term)
     $.ajax({url: "http://developer.echonest.com/api/v4/artist/suggest",
       data: {"api_key": "FILDTEOIK2HBORODV", "name": request.term, "results": 10},
       type: "get"}).done(function(data){ 
@@ -31,5 +49,173 @@ $('.auto-box').autocomplete({
       })
     }
 });
+
+
+$('.gadget').on("click", function(event){
+  event.preventDefault();
+  $.ajax({
+    url: "<%= song_url %>" + ".json",
+    type: "POST",
+    data: $(this.form).serialize(),
+      
+  }).done(function(song){
+    alert("donedonedone");
+    
+    $('input[name=song\\[title\\]]').val("");
+    $('input[name=song\\[artist\\]]').val("");
+    
+    $.ajax({
+      url: "<%= user_uploadeds_url %>",
+      type: "POST",
+      data: {"user_uploaded": {"user_id": "<%= @user.id %>", "song_id": song.id}}
+    }).done($('body').append("successfully added song!!!"));
+    
+    
+  });
+  
+  
+});
+
+var autocontinue = false;
+$('.auto-cont').on("click", function(){
+  autocontinue = $('.auto-cont').is(':checked')
+})
+
+var random_song = JSON.parse($('#random-song').html());
+var song_id;
+var processTrack = function (title, artist, id){
+  song_id = id;
+  var track;
+  var that = this;
+  track = window.tomahkAPI.Track(title,
+      artist, 
+      {
+      width: 300,
+      height: 300,
+      disabledResolvers: ["SpotifyMetadata"],
+          // options: "SoundCloud", "Officialfm", "Lastfm", "Jamendo", "Youtube", "Rdio", "SpotifyMetadata", "Deezer", "Exfm"
+      handlers: {
+          onloaded: function() {
+          },
+          onended: function() {
+            //make ajax query if autocomplete = true
+            alert("song ended!");
+            if(autocontinue){
+              $.ajax({
+                url: "/user_histories",
+                type: "POST",
+                data: {"user_history": {"song_id": song_id, "user_id": "<%= @user.id %>"}},
+                success: function(response) {
+                  $.ajax({
+                    url: "<%= song_url %>.json",
+                    type: "get"
+                  }).done(function(data){
+                    new_track = processTrack(data.title, data.artist, data.id)
+                    $('.natalie').html(new_track.render())
+                  })
+                },
+                error: function(response, arg, error) {
+          
+                }
+              });
+              return false;
+            }
+          },
+          onplayable: function() {
+            if(autocontinue)
+              new_track.play();
+          },
+          onresolved: function(resolver, result) {
+          },
+      }
+  });
+  return track;
+}
+
+var new_track = processTrack(random_song.title, random_song.artist, random_song.id)
+
+$('.natalie').append(new_track.render())
+
+$(document).keydown(function(e){
+  if ($('.auto-box').is(":focus")) {
+    
+  } else {
+    if (e.keyCode == 32) { /* space */
+      new_track.play();
+      return false;
+    }
+    
+    if (e.keyCode == 40) { /* down */
+      
+      
+      $.ajax({
+        url: "/polarities",
+        type: "POST",
+        data: {"polarity": {"song_id": song_id, "is_good": "false", "user_id": "<%= @user.id %>"}},
+        success: function(response) {
+        },
+        error: function(response, arg, error) {
+        }
+      });
+      
+      
+      return false;
+    }
+    
+    
+    if (e.keyCode == 38) { /* up */
+      
+      $.ajax({
+        url: "/polarities",
+        type: "POST",
+        data: {"polarity": {"song_id": song_id, "is_good": "true", "user_id": "<%= @user.id %>"}},
+        success: function(response) {
+          //make the thing glowwwww
+        },
+        error: function(response, arg, error) {
+        }
+      });
+   
+      return false;
+    }
+    
+    
+    
+    if (e.keyCode == 39) { /* right */
+      
+      $.ajax({
+        url: "/user_histories",
+        type: "POST",
+        data: {"user_history": {"song_id": song_id, "user_id": "<%= @user.id %>"}},
+        success: function(response) {
+          
+          $.ajax({
+            url: "<%= song_url %>.json",
+            type: "get"
+          }).done(function(data){
+            new_track = processTrack(data.title, data.artist, data.id)
+            $('.natalie').html(new_track.render())
+          })
+        },
+        error: function(response, arg, error) {
+          
+        }
+      });
+      
+      return false;
+    }
+    
+    
+    
+    if (e.keyCode == 37) { /* left */
+      //SHOW HISTORY
+       return false;
+    }
+    
+    
+    
+    
+  }
+})
 
 </script>

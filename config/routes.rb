@@ -1,5 +1,7 @@
 ShuffleApp::Application.routes.draw do
 
+  get "songs/show"
+
   get "users/show"
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
@@ -8,7 +10,12 @@ ShuffleApp::Application.routes.draw do
     get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
   end
 
-  root :to => "users#show"
+  resource :song, only: [:show, :create]
+  resources :polarities, only: [:create]
+  
+  resources :user_histories, only: [:create]
+  resources :user_uploadeds, only: [:create]
+  root :to => "users#show"  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
