@@ -7,10 +7,12 @@
 <% if @user %>
 <strong class="hinge_me"><%= @user.email %></strong>
 <span class="righty signout"><a href="<%= destroy_user_session_url %>" data-method="delete" rel="nofollow">sign out</a></span>
+
 <% end %>
 </section>
 
 <section class="scoreboard">
+<<<<<<< HEAD
 <h6>points you've racked up</h6>
 <h4><%= @user.get_score %></h4>
 </section>
@@ -53,11 +55,13 @@
 <script src="http://toma.hk/api.js?v=1"></script>
 
 <script type="application/javascript">
+
 $(document).ready($('.qmark').addClass("animated rotateIn"));
 
 $(document).ready($('.circle').addClass('animated fadeInLeftBig'));
 
 $('.auto-box').autocomplete({
+
   source: function(request, response){
     $.ajax({url: "http://developer.echonest.com/api/v4/artist/suggest",
       data: {"api_key": "FILDTEOIK2HBORODV", "name": request.term, "results": 10},
@@ -206,6 +210,7 @@ $(document).keydown(function(e){
         data: {"user_history": {"song_id": song_id, "user_id": "<%= @user.id %>"}},
         success: function(response) {
           $(".circle").addClass("animated fadeOutRightBig");
+
           $.ajax({
             url: "<%= song_url %>.json",
             type: "get"
@@ -215,6 +220,7 @@ $(document).keydown(function(e){
             $('.natalie').html(new_track.render())
             $(".circle").removeClass("animated fadeOutRightBig");
             $(".circle").addClass("animated fadeInLeftBig");
+
           })
         },
         error: function(response, arg, error) {
@@ -224,19 +230,13 @@ $(document).keydown(function(e){
       
       return false;
     }
-    
-    
-    
+
     if (e.keyCode == 37) { /* left */
       //SHOW HISTORY
        return false;
-    }
-    
-    
-    
+    }    
     
   }
 })
-
 
 </script>

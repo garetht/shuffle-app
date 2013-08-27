@@ -9,7 +9,11 @@ ShuffleApp::Application.configure do
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
+<<<<<<< HEAD
   config.serve_static_assets = false
+=======
+  config.serve_static_assets = true
+>>>>>>> 97318bee18670a3fdd8a2ee5e38a980f6a593ce4
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
